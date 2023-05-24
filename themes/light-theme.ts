@@ -16,6 +16,7 @@ export const lightTheme = createTheme({
     MuiLink: {
       defaultProps: {
         underline: 'none',
+        color: '#252525'
       },
     },
     MuiAppBar: {
