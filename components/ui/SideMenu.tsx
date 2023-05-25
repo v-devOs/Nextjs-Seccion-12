@@ -15,7 +15,7 @@ import LoginOutlined from '@mui/icons-material/LoginOutlined'
 export const SideMenu = () => {
   return (
     <Drawer
-        open={ true }
+        open={ false }
         anchor='right'
         sx={{ backdropFilter: 'blur(4px)', transition: 'all 0.5s ease-out' }}
     >
