@@ -9,8 +9,6 @@ interface Props{
 }
 
 export const ProductSlideshow:FC<Props> = ({ images }) => {
-
-  console.log(images);
   
   return (
     <Slide
@@ -21,9 +19,6 @@ export const ProductSlideshow:FC<Props> = ({ images }) => {
       {
         images.map( image => {
           const url = `http://localhost:3000/products/${image}`
-
-          console.log({url,name:  'url image'});
-          
           
           return (
             <div className={styles['each-slide']} key={image}>
