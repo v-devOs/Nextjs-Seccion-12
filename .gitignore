@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 public/products
+mongo/
 
 # testing
 /coverage
