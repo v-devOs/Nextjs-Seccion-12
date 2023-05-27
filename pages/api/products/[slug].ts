@@ -6,7 +6,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 type Data = 
 | { message : string }
 | IProduct
-| null
+// | null
 
 export default function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
   
