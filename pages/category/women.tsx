@@ -5,7 +5,7 @@ import { ProductList } from "@/components/products";
 import { FullScreenLoading } from "@/components/ui";
 
 
-const WomensPage= () => {
+const WomensPage = () => {
 
   const { products, isLoading } = useProducts('/products?gender=women')
 
