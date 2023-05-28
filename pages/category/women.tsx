@@ -5,13 +5,14 @@ import { ProductList } from "@/components/products";
 import { FullScreenLoading } from "@/components/ui";
 
 
-export default function Home() {
+const WomensPage= () => {
 
-  const { products, isLoading } = useProducts('/products')
+  const { products, isLoading } = useProducts('/products?gender=women')
+
   
   return (
-    <ShopLayout title="Teslo-Shop - Home" pageDescription="Encuentra los mejores productos de Teslo aqui">
-      <Typography variant="h1" component='h1'>Tienda</Typography>
+    <ShopLayout title="Teslo-Shop - Women Products Page" pageDescription="Encuentra los mejores productos de Teslo para mujeres">
+      <Typography variant="h1" component='h1'>Mujeres</Typography>
       <Typography variant="h2" sx={{mb: 1}}>Todos los productos</Typography>
       
       {
@@ -25,3 +26,5 @@ export default function Home() {
     </ShopLayout>
   )
 }
+
+export default WomensPage;

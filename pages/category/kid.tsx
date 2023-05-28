@@ -5,13 +5,13 @@ import { ProductList } from "@/components/products";
 import { FullScreenLoading } from "@/components/ui";
 
 
-export default function Home() {
+export default function KidsPage() {
 
-  const { products, isLoading } = useProducts('/products')
+  const { products, isLoading } = useProducts('/products?gender=kid')
   
   return (
-    <ShopLayout title="Teslo-Shop - Home" pageDescription="Encuentra los mejores productos de Teslo aqui">
-      <Typography variant="h1" component='h1'>Tienda</Typography>
+    <ShopLayout title="Teslo-Shop - Kid Products Page" pageDescription="Seccion para los niños">
+      <Typography variant="h1" component='h1'>Niños</Typography>
       <Typography variant="h2" sx={{mb: 1}}>Todos los productos</Typography>
       
       {

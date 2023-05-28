@@ -24,16 +24,16 @@ export default function handler (req: NextApiRequest, res: NextApiResponse<Data>
 const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   
   const { gender = 'all' } = req.query
-  let condition = {}
+  let condition = {};
 
 
   if( gender !== 'all' && SHOP_CONSTANTS.validGender.includes(`${gender}`) ){
-    condition = { gender }
+    condition = {gender}
   }
 
   await db.connect();
 
-  const products = await Product.find()
+  const products = await Product.find(condition)
                                 .select('title images price slug inStock -_id')
                                 .lean();
 
