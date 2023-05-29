@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { GetServerSideProps } from 'next'
+import { GetStaticProps, GetStaticPaths } from 'next'
 
 import { Box, Button, Chip, Grid, Typography } from "@mui/material";
 
@@ -61,17 +61,31 @@ const ProductPage: FC<Props> = ({ product }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  
-  const { slug } = params as { slug: string } 
 
-  const product = await dbProducts.getProductBySlug(slug)
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+  const slugs = await  dbProducts.getAllProductsSlugs();
+
+
+  return {
+    paths: slugs.map( ( slug ) => (
+      {
+        params: { ...slug }
+      }
+    )),
+    fallback: "blocking"
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params as { slug : string } 
+
+  const product = await  dbProducts.getProductBySlug( slug )
 
   if( !product ){
     return{
       redirect: {
         destination: '/',
-        permanent: false
+        permanent: false,
       }
     }
   }
@@ -79,8 +93,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return {
     props: {
       product
-    }
+    },
+    revalidate: 864000
   }
 }
+
+
+
 
 export default ProductPage
