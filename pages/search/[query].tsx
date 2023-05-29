@@ -23,10 +23,10 @@ const SearchPage: FC<Props> = ({ products, foundProducts, query }) =>  /* const 
 
     {
       foundProducts
-        ? <Typography variant="h2" sx={{ mb: 1 }}>Productos relacionados con: {query}</Typography>
+        ? <Typography variant="h2" textTransform='capitalize' sx={{ mb: 1 }}>: {query}</Typography>
         : <Box display='flex' >
             <Typography variant="h2" sx={{ mb: 1 }}>No encontramos ningun producto:</Typography>
-            <Typography variant="h2" color='secondary' sx={{ ml: 1 }}>{query}</Typography>
+            <Typography variant="h2" color='secondary' textTransform='capitalize' sx={{ ml: 1 }}>{query}</Typography>
           </Box>
 
     }

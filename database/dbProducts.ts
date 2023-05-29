@@ -52,9 +52,7 @@ export const getAllProducts = async (): Promise<IProduct[]> => {
 
   await db.connect()
 
-  const products = Product.find()
-                          
-                          .lean()
+  const products = await Product.find().lean()
 
   await db.disconnect()
 
