@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { GetStaticProps, GetStaticPaths } from 'next'
 
@@ -8,7 +8,7 @@ import { ProductSlideshow, SizeSelector } from "@/components/products";
 import { ShopLayout } from "@/components/layouts"
 import { ItemCounter } from "@/components/ui";
 
-import { IProduct } from "@/interfaces";
+import { ICartProduct, IProduct, ISize } from "@/interfaces";
 import { dbProducts } from "@/database";
 
 interface Props{
@@ -16,6 +16,24 @@ interface Props{
 }
 
 const ProductPage: FC<Props> = ({ product }) => {
+
+  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
+    _id: product._id    ,
+    image: product.images[0],
+    price: product.price,
+    size: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    quantity: 0
+  })
+
+  const onChangeSize = ( size: ISize ) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      size
+    }))
+  }
 
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
@@ -36,23 +54,30 @@ const ProductPage: FC<Props> = ({ product }) => {
             <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2">Cantidad</Typography>
               <ItemCounter/>
-              <SizeSelector sizes={product.sizes} />
+              <SizeSelector 
+                sizes={product.sizes} 
+                seletedSize={tempCartProduct.size}
+                onChangeSize={onChangeSize}
+              />
             </Box>
 
             {/* Agregar al carrito */}
             
-
             {
               (product.inStock > 0)
               ? (
                 <Button color="secondary" className="circular-btn">
-                  Agregar al carrito
+                  {
+                    tempCartProduct.size
+                    ? "Agregar al carrito"
+                    : "Seleccione una talla"
+                  }
                 </Button>
               ): (
                 <Chip label='No hay disponibles' color="error" variant="outlined"/>
               )
             }
-            
+
             {/* Descripcion */}
 
             <Box sx={{ mt: 3}}>

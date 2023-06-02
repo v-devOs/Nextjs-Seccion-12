@@ -5,11 +5,12 @@ import { ISize } from "@/interfaces"
 interface Props{
   seletedSize?: ISize,
   sizes: ISize[],
+
+  // Method
+  onChangeSize: ( size: ISize ) => void
 }
 
-export const SizeSelector: FC<Props> = ({ seletedSize, sizes }) => {
-  
-  const [currentSize, setCurrentSize] = useState(seletedSize);
+export const SizeSelector: FC<Props> = ({ seletedSize, sizes, onChangeSize }) => {
   
   return (
     <Box>
@@ -18,8 +19,8 @@ export const SizeSelector: FC<Props> = ({ seletedSize, sizes }) => {
           <Button
             key={size}
             size="small"
-            color={ currentSize === size ? 'primary': 'info'}
-            onClick={ () => setCurrentSize( size )}
+            color={ seletedSize === size ? 'primary': 'info'}
+            onClick={ () => onChangeSize( size )}
           >{size}</Button>
         ))
       }
