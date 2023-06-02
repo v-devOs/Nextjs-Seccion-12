@@ -15,6 +15,7 @@ interface Props{
   product: IProduct
 }
 
+
 const ProductPage: FC<Props> = ({ product }) => {
 
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
@@ -28,11 +29,19 @@ const ProductPage: FC<Props> = ({ product }) => {
     quantity: 0
   })
 
+
   const onChangeSize = ( size: ISize ) => {
     setTempCartProduct( currentProduct => ({
       ...currentProduct,
       size
     }))
+  }
+
+  const onUpdateQuantity = ( quantity: number ) => {
+      setTempCartProduct( currentProduct => ({
+        ...currentProduct,
+        quantity
+      }))
   }
 
   return (
@@ -53,7 +62,11 @@ const ProductPage: FC<Props> = ({ product }) => {
 
             <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2">Cantidad</Typography>
-              <ItemCounter/>
+              <ItemCounter 
+                currentValue={tempCartProduct.quantity} 
+                maxValue={product.inStock > 10 ? 10 : product.inStock} 
+                updateQuantity={onUpdateQuantity}                
+              />
               <SizeSelector 
                 sizes={product.sizes} 
                 seletedSize={tempCartProduct.size}
