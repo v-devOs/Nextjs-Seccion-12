@@ -6,7 +6,7 @@ import { ThemeProvider } from '@emotion/react'
 import { SWRConfig } from 'swr'
 
 import { lightTheme } from '@/themes'
-import { UIProvider } from '@/context'
+import { CartProvider, UIProvider } from '@/context'
 
 import '@/styles/globals.css'
 
@@ -17,13 +17,14 @@ export default function App({ Component, pageProps }: AppProps) {
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     > 
-
-      <UIProvider>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline/>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </UIProvider>
+      <CartProvider>
+        <UIProvider>
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline/>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </UIProvider>
+      </CartProvider>
     </SWRConfig>
   )
 }
