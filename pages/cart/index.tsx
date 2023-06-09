@@ -21,7 +21,7 @@ const CartPage = () => {
               <OrderSumary/>
 
               <Box sx={{ mt: 3 }}>
-                <Button color='secondary' className='circular-btn' fullWidth>CheckOut</Button>
+                <Button color='secondary' className='circular-btn' fullWidth>Checkout</Button>
               </Box>
             </CardContent>
           </Card>
