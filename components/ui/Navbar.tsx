@@ -25,9 +25,6 @@ export const Navbar = () => {
       push(`/search/${ searchTerm }`)
   }
 
-
-
-
   return (
     <AppBar>
         <Toolbar>
