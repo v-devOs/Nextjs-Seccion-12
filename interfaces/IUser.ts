@@ -4,7 +4,7 @@ export interface IUser{
   name     : string
   email    : string
   password?: string
-  roel     : string
+  role    : string
 
 
   createdAt : string
