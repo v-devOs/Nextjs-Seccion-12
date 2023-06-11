@@ -2,7 +2,7 @@ import { db } from '@/database'
 import User from '@/models/User'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcryptjs from 'bcryptjs';
-import { jwt } from '@/utils';
+import { jwt, validations } from '@/utils';
 
 type Data = { message: string }
 | { 
@@ -33,10 +33,7 @@ const registerUser = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   
   const { email = '', password = '', name = '' } = req.body as { email: string, password: string, name: string}
 
-  await db.connect()
-
-  const user = await User.findOne({ email })
-
+ 
   if( password.length < 6 ){
     return res.status(400).json({message: 'La contraseña debe de ser 6 caracteres'})
   }
@@ -44,6 +41,16 @@ const registerUser = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   if( name.length < 2 ){
     return res.status(400).json({message: 'El nombre debe de ser 3 caracteres'})
   }
+
+  if( !validations.isValidEmail( email )){
+    return res.status(400).json({
+      message: 'El correo ingresado no tiene formato de correo'
+    })
+  }
+
+  await db.connect()
+  const user = await User.findOne({ email })
+
 
   if( user ){
     await db.disconnect()
