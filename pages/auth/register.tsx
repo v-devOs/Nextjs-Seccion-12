@@ -1,14 +1,17 @@
-import { useForm } from 'react-hook-form'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import NextLink from 'next/link'
+import { useRouter } from 'next/router';
 
 import { Box, Grid, Typography, TextField, Button, Link, Chip } from "@mui/material"
+import { useForm } from 'react-hook-form'
+
 import Error from '@mui/icons-material/Error'
 
 import { AuthLayout } from "@/components/layouts"
 import { validations } from '@/utils'
 import { tesloApi } from '@/api'
+import { AuthContext } from '@/context';
 
 
 type FormData = {
@@ -20,6 +23,11 @@ type FormData = {
 
 const RegisterPage = () => {
 
+  const { registerUser } = useContext( AuthContext )
+  const [existUser, setExistUser] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -27,23 +35,25 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<FormData>()
 
-  const [existUser, setExistUser] = useState(false)
 
   const onRegisterUser = async( { email, password, name }: FormData ) => {
     
-    try {
-      const { data } = await tesloApi.post('user/register', { email, password, name })
+    setExistUser( false )
 
-      console.log(data)
-      
-    } catch (error) {
+    const { hasError, message } = await registerUser( name, email, password )
+
+    if( hasError ){
       setExistUser(true)
-      console.log('Error en las credenciales')
-
+      setErrorMessage( message! )
       setTimeout(() => {
         setExistUser( false )
       }, 3000);
+      return 
     }
+
+    router.replace('/')
+
+   
   } 
 
   return (
@@ -56,7 +66,7 @@ const RegisterPage = () => {
             <Grid item xs={12}>
               <Typography variant='h1' component='h1'>Crear cuenta</Typography>
               <Chip
-                label={'Este usuario ya esta registrado'}
+                label={errorMessage}
                 color='error'
                 icon={ <Error/> }
                 className='fadeIn'
@@ -90,7 +100,7 @@ const RegisterPage = () => {
                 {
                   ...register('email',{
                     required: 'Este campo es requerido',
-                    validate: validations.isValidEmail
+                    validate: validations.isEmail
                   })
                 }
 
