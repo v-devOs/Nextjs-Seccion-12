@@ -103,7 +103,7 @@ const LoginPage = () => {
                 }
 
                 error={ !!errors.password }
-                helperText={ errors.password?.message}
+                helperText={ errors.password?.message }
 
               />
             </Grid>
@@ -119,7 +119,7 @@ const LoginPage = () => {
               </Button>
             </Grid>
             <Grid item xs={12} display='flex' justifyContent='end'>
-              <NextLink href='/auth/register' passHref>
+              <NextLink href={`/auth/register?p=${router.query.p?.toString() || '/auth/register'}`} passHref>
                 <Link underline='always' component='span'>
                   ¿No tienes cuenta?
                 </Link>
