@@ -47,8 +47,8 @@ const LoginPage = () => {
       }, 3000);
     }
 
-    // Todo: Navegar a la siguiente pantalla
-    router.replace('/')
+    const destination = router.query.p?.toString() || '/'
+    router.replace(destination)
   }
 
   return (
