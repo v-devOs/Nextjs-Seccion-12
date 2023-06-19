@@ -31,17 +31,16 @@ export const CartProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     try {
-      const cookieProducts = Cookie.get('cart') ? JSON.parse(Cookie.get('cart')! ): []
-      dispatch({ type: '[Cart] - LoadCart from cookies | storage', payload: cookieProducts })
+        const cookieCart = Cookie.get('cart') ? JSON.parse(Cookie.get('cart')!) : [];
+        dispatch({ type: '[Cart] - LoadCart from cookies | storage', payload: cookieCart })
     } catch (error) {
-      dispatch({ type: '[Cart] - LoadCart from cookies | storage', payload: [] })
+        dispatch({ type: '[Cart] - LoadCart from cookies | storage', payload: [] })
     }
   }, [])
-  
 
   useEffect(() => {
-    Cookie.set('cart', JSON.stringify( state.cart ))
-  }, [state.cart])
+      if (state.cart.length > 0) Cookie.set('cart', JSON.stringify(state.cart))
+  }, [state.cart]);
 
   useEffect(() => {
 

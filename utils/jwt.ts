@@ -26,6 +26,7 @@ export const isValidToken = ( token: string): Promise<string> => {
     return Promise.reject('Token no valido')
   }
 
+
   return new Promise( (resolve, reject) => {
 
     try {
