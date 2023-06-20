@@ -2,6 +2,8 @@ import NextLink from 'next/link'
 import { CartList, OrderSumary } from '@/components/cart';
 import { ShopLayout } from '@/components/layouts'
 import { Card, CardContent, Grid, Typography, Divider, Box, Button, Link } from '@mui/material';
+import { GetServerSideProps } from 'next';
+import { validateSession } from '@/utils';
 
 const SummaryPage = () => {
   return (
@@ -57,6 +59,28 @@ const SummaryPage = () => {
 
     </ShopLayout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+
+  const { token = '' } = req.cookies;
+
+  const isValidToken = await validateSession( token )
+
+  if( !isValidToken ){
+    return {
+      redirect: {
+        destination: '/auth/login?p=/checkout/address',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      
+    }
+  }
 }
 
 export default SummaryPage

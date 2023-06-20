@@ -41,8 +41,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       const { data } = await tesloApi.get('/user/validate-token')
       const { token, user } = data
 
-      console.log(token + 'Token en authProvider')
-
       Cookies.set('token', token)
 
       dispatch({type: '[Auth] - Login', payload: user })
