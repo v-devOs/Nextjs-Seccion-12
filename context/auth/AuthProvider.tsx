@@ -41,6 +41,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       const { data } = await tesloApi.get('/user/validate-token')
       const { token, user } = data
 
+      console.log(token + 'Token en authProvider')
+
       Cookies.set('token', token)
 
       dispatch({type: '[Auth] - Login', payload: user })
@@ -58,6 +60,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       const { token, user } = data
 
       Cookies.set('token', token)
+      
       dispatch({ type: '[Auth] - Login', payload: user })
       return true;
 
@@ -66,9 +69,9 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     }
   }
 
-  const registerUser = async ( email:string, password: string, name: string ): Promise<{hasError: boolean, message?: string}> => {
+  const registerUser = async ( name: string, email:string, password: string ): Promise<{hasError: boolean, message?: string}> => {
     try {
-      const { data } = await tesloApi.post('/user/register', { email, password, name});
+      const { data } = await tesloApi.post('/user/register', { name, email, password });
       const { token, user } = data
 
       Cookies.set('token', token)
