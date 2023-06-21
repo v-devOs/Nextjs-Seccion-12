@@ -7,6 +7,8 @@ import { ShopLayout } from "@/components/layouts"
 import { countries, validateSession } from "@/utils"
 import { useForm } from 'react-hook-form'
 import Cookies from 'js-cookie'
+import { useContext } from 'react'
+import { CartContext } from '@/context'
 
 type FormData = {
   firstName: string,
@@ -34,6 +36,8 @@ const getAddressFromCookies = (): FormData => {
 
 const AddressPage = () => {
 
+  const { updateAddress } = useContext(CartContext)
+
   const router = useRouter()
 
   const { register, handleSubmit, formState: { errors }} = useForm<FormData>({
@@ -41,14 +45,9 @@ const AddressPage = () => {
   })
   
   const onSubmitAddress = ( data: FormData ) => {
-    Cookies.set("firstName", data.firstName)
-    Cookies.set("lastName", data.lastName)
-    Cookies.set("address", data.address)
-    Cookies.set("address2", data.address2 || '')
-    Cookies.set("zip", data.zip)
-    Cookies.set("city", data.city)
-    Cookies.set("country", data.country)
-    Cookies.set("phone", data.phone)
+    
+
+    updateAddress( data )
 
     router.push('/checkout/summary')
   }
