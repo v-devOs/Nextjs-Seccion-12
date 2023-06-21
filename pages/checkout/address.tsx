@@ -1,14 +1,16 @@
+import { useContext } from 'react'
+
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import Cookies from 'js-cookie'
+import { useForm } from 'react-hook-form'
+
+import { CartContext } from '@/context'
 
 import { ShopLayout } from "@/components/layouts"
 import { countries, validateSession } from "@/utils"
-import { useForm } from 'react-hook-form'
-import Cookies from 'js-cookie'
-import { useContext } from 'react'
-import { CartContext } from '@/context'
 
 type FormData = {
   firstName: string,
@@ -46,9 +48,7 @@ const AddressPage = () => {
   
   const onSubmitAddress = ( data: FormData ) => {
     
-
     updateAddress( data )
-
     router.push('/checkout/summary')
   }
 

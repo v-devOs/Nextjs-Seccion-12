@@ -1,11 +1,25 @@
+import { useContext } from 'react';
+import { GetServerSideProps } from 'next';
 import NextLink from 'next/link'
+
+import { Card, CardContent, Grid, Typography, Divider, Box, Button, Link } from '@mui/material';
+
+import { CartContext } from '@/context';
+
 import { CartList, OrderSumary } from '@/components/cart';
 import { ShopLayout } from '@/components/layouts'
-import { Card, CardContent, Grid, Typography, Divider, Box, Button, Link } from '@mui/material';
-import { GetServerSideProps } from 'next';
-import { validateSession } from '@/utils';
+import { countries, validateSession } from '@/utils';
 
 const SummaryPage = () => {
+
+  const { shippingAddress, numberOfItems } = useContext(CartContext)
+
+  if( !shippingAddress ){
+    return <></>
+  }
+
+  const { firstName, lastName, address, address2 = '', zip, city, country, phone} = shippingAddress
+
   return (
     <ShopLayout title='Resumen de orden' pageDescription='Resumen de la orden'>
       <Typography variant='h1' component='h1'>Resumen de la orden</Typography>
@@ -17,7 +31,7 @@ const SummaryPage = () => {
         <Grid item xs={ 12 } sm={5}>
           <Card className='sumary-card'>
             <CardContent>
-              <Typography variant='h2'>Resumen ( 3 prodcutos )</Typography>
+              <Typography variant='h2'>Resumen ( {numberOfItems} {numberOfItems > 1 ? 'productos' : 'producto'} )</Typography>
               
               <Divider sx={{ my: 1}}/>
 
@@ -30,12 +44,12 @@ const SummaryPage = () => {
                 </NextLink>
               </Box>
               
-              <Typography>Fernando Herrera</Typography>
-              <Typography>Algun Lugar</Typography>
-              <Typography>Juventino Rosas</Typography>
-              <Typography>38240</Typography>
-              <Typography>Canada</Typography>
-              <Typography>+52 8779878798</Typography>
+              <Typography>{`${firstName} ${lastName}`}</Typography>
+              <Typography>{address},{address2 && address2 }</Typography>
+              <Typography>{city}</Typography>
+              <Typography>{zip}</Typography>
+              <Typography>{countries.find( c => c.code === country)?.name}</Typography>
+              <Typography>{phone}</Typography>
               
               <Divider sx={{ my: 1}}/>
 

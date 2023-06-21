@@ -2,7 +2,6 @@ import { FC, ReactNode, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie'
 import { CartContext, cartReducer } from './';
 import { ICartProduct } from '@/interfaces';
-import { get } from 'http';
 
 interface Props {
   children: ReactNode
@@ -16,7 +15,7 @@ export interface CartState {
   tax: number;
   total: number;
 
-  shippingAddres?: ShippingAddress
+  shippingAddress?: ShippingAddress
 }
 
 export interface ShippingAddress{
@@ -37,7 +36,7 @@ const Cart_INITIAL_STATE : CartState = {
   subtotal: 0,
   tax: 0,
   total: 0,
-  shippingAddres: undefined
+  shippingAddress: undefined
 }
 
 export const CartProvider: FC<Props> = ({ children }) => {
@@ -57,7 +56,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
 
     if( !Cookies.get('firstName')){
 
-      const addressFromCookies: ShippingAddress = {
+      const shippingAddress: ShippingAddress = {
         firstName: Cookies.get('firstName') || '',
         lastName:  Cookies.get('lastName') || '',
         address:   Cookies.get('address') || '',
@@ -68,7 +67,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
         phone:     Cookies.get('phone') || '',
       }
   
-      dispatch({ type: '[Cart] - Load address from cookies', payload: addressFromCookies})
+      dispatch({ type: '[Cart] - Load address from cookies', payload: shippingAddress})
     }
 
   }, [])
