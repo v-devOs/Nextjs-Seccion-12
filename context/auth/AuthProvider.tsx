@@ -36,6 +36,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     if( status === 'authenticated'){
 
       console.log(data)
+      // TODO: Realizar dispatch del usuario
       // dispatch({type: '[Auth] - Login', payload: data.user as IUser})
     }
     
