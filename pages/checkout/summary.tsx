@@ -45,7 +45,7 @@ const SummaryPage = () => {
               </Box>
               
               <Typography>{`${firstName} ${lastName}`}</Typography>
-              <Typography>{address},{address2 && address2 }</Typography>
+              <Typography>{address}{address2 === '' ? '' : ',' + address2 }</Typography>
               <Typography>{city}</Typography>
               <Typography>{zip}</Typography>
               <Typography>{countries.find( c => c.code === country)?.name}</Typography>
