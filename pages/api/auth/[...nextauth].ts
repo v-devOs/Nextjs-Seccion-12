@@ -2,7 +2,6 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import Credentials from "next-auth/providers/credentials"
-import { IUser } from "@/interfaces"
 import { dbUsers } from "@/database"
 
 export default NextAuth({
@@ -33,15 +32,11 @@ export default NextAuth({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
     }),
-
-
   ],
 
   jwt: {
 
   },
-
-  
 
   // Callbacks
 
@@ -56,11 +51,10 @@ export default NextAuth({
         switch( account.type ){
 
           case 'oauth':
-            // TODO: crear usuario o verificar si existe en base de datos
+            token.user = await dbUsers.oAuthToDbUser( user?.email || '' , user?.name || '')
             break;
           case 'credentials':
             token.user = user
-
             break;
         }
       }
@@ -76,7 +70,5 @@ export default NextAuth({
       return session
     }
   },
-
-  
 })
 
