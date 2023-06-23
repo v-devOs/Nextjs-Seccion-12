@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect, useReducer } from 'react'
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 ;
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -37,7 +37,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
       console.log(data)
       // TODO: Realizar dispatch del usuario
-      // dispatch({type: '[Auth] - Login', payload: data.user as IUser})
+      dispatch({type: '[Auth] - Login', payload: data.user as IUser})
     }
     
   }, [status, data])
@@ -121,9 +121,9 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     Cookies.remove('zip') 
     Cookies.remove('city') 
     Cookies.remove('country') 
-    Cookies.remove('phone') 
-
-    router.reload()
+    Cookies.remove('phone')
+    
+    signOut()
   }
 
   return (
