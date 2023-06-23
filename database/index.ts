@@ -4,3 +4,5 @@ export * as dbProducts from './dbProducts'
 
 
 export * as seedDatabase from './seed-data'
+
+export * as dbUsers from './dbUsers'

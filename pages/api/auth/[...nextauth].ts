@@ -3,6 +3,7 @@ import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import Credentials from "next-auth/providers/credentials"
 import { IUser } from "@/interfaces"
+import { dbUsers } from "@/database"
 
 export default NextAuth({
   
@@ -22,8 +23,9 @@ export default NextAuth({
         console.log({credentials})
 
         // TODO: VALIDAR CONTRA BASE DE DATOS
+        // return { name: 'Uriel', role: 'admin', email: 'uriel@google.com', id: ''}
 
-        return { name: 'Uriel', role: 'admin', email: 'uriel@google.com', id: ''}
+        return await dbUsers.checkUserEmailPassowrd( credentials!.email, credentials!.password)
       }
     }),
 
