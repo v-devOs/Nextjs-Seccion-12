@@ -34,11 +34,18 @@ export default NextAuth({
     }),
   ],
 
+  // Custom pages
+
+  pages: {
+    signIn: '/auth/login',
+    newUser: '/auth/register'
+  },
+
+  // Callbacks
   jwt: {
 
   },
 
-  // Callbacks
 
   callbacks: {
     async jwt({token, user, account}){
