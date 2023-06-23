@@ -1,17 +1,19 @@
 import { useState, useContext } from 'react';
 
+import { GetServerSideProps } from 'next';
 import NextLink from 'next/link'
 import { useRouter } from 'next/router';
 
 import { Box, Grid, Typography, TextField, Button, Link, Chip } from "@mui/material"
+import { getSession, signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form'
 
 import Error from '@mui/icons-material/Error'
 
 import { AuthLayout } from "@/components/layouts"
 import { validations } from '@/utils'
-import { tesloApi } from '@/api'
 import { AuthContext } from '@/context';
+import { isValidEmail } from '../../utils/validations';
 
 
 type FormData = {
@@ -51,14 +53,16 @@ const RegisterPage = () => {
       return 
     }
 
-    const destination = router.query.p?.toString() || '/'
+    // const destination = router.query.p?.toString() || '/'
 
-    router.replace(destination)
+    // router.replace(destination)
+
+    await signIn('credentials', { email, password })
   } 
 
   return (
     <AuthLayout title="Registrarse">
-      <form onSubmit={ handleSubmit(onRegisterUser) }>
+      <form onSubmit={ handleSubmit(onRegisterUser) } noValidate>
 
         <Box sx={{ width: 350, padding: '10px 20px '}}>
           <Grid container spacing={2}>
@@ -151,6 +155,28 @@ const RegisterPage = () => {
       </form>
     </AuthLayout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({req, query}) => {
+  
+  const session = await getSession({ req })
+
+  const { p = '/' } = query
+
+  if( session ){
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      
+    }
+  }
 }
 
 export default RegisterPage
