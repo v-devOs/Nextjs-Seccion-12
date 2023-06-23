@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import NextLink from 'next/link'
 
@@ -9,17 +9,28 @@ import { CartContext } from '@/context';
 import { CartList, OrderSumary } from '@/components/cart';
 import { ShopLayout } from '@/components/layouts'
 import { countries, validateSession } from '@/utils';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const SummaryPage = () => {
 
   const { shippingAddress, numberOfItems } = useContext(CartContext)
+  const router = useRouter()
 
+  useEffect(() => {
+    if( !Cookies.get('firstName') ){
+      router.push('/checkout/address')
+    }  
+  }, [ router ])
+  
+  
   if( !shippingAddress ){
     return <></>
   }
+  
 
-  const { firstName, lastName, address, address2 = '', zip, city, country, phone} = shippingAddress
-
+  const { firstName , lastName, address, address2 = '', zip, city, country, phone} = shippingAddress!
+  
   return (
     <ShopLayout title='Resumen de orden' pageDescription='Resumen de la orden'>
       <Typography variant='h1' component='h1'>Resumen de la orden</Typography>
@@ -48,7 +59,7 @@ const SummaryPage = () => {
               <Typography>{address}{address2 === '' ? '' : ',' + address2 }</Typography>
               <Typography>{city}</Typography>
               <Typography>{zip}</Typography>
-              <Typography>{countries.find( c => c.code === country)?.name}</Typography>
+              <Typography>{country}</Typography>
               <Typography>{phone}</Typography>
               
               <Divider sx={{ my: 1}}/>

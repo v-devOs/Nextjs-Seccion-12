@@ -46,8 +46,8 @@ const LoginPage = () => {
       setProviders(prev)
     })
   }, [])
-  
 
+  
   return (
     <AuthLayout title="Ingresar">
       
@@ -129,7 +129,7 @@ const LoginPage = () => {
               {
                 Object.values( providers ).map( ( provider: any ) => {
 
-                  if( provider.id === 'credentials') return <></>
+                  if( provider.id === 'credentials') return <div key={provider.id}></div>
                   return (
                     <Button
                       key={provider.id}

@@ -54,7 +54,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
 
-    if( !Cookies.get('firstName')){
+    if( Cookies.get('firstName')){
 
       const shippingAddress: ShippingAddress = {
         firstName: Cookies.get('firstName') || '',
