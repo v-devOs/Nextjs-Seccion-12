@@ -14,8 +14,12 @@ import { useRouter } from 'next/router';
 
 const SummaryPage = () => {
 
-  const { shippingAddress, numberOfItems } = useContext(CartContext)
+  const { shippingAddress, numberOfItems, createOrder } = useContext(CartContext)
   const router = useRouter()
+
+  const onCreateOrder = () => {
+    createOrder()
+  }
 
   useEffect(() => {
     if( !Cookies.get('firstName') ){
@@ -75,7 +79,13 @@ const SummaryPage = () => {
               <OrderSumary/>
 
               <Box sx={{ mt: 3 }}>
-                <Button color='secondary' className='circular-btn' fullWidth>Confimar Orden</Button>
+                <Button 
+                  color='secondary' 
+                  className='circular-btn' 
+                  fullWidth
+                  onClick={onCreateOrder}
+                >Confimar Orden
+                </Button>
               </Box>
             </CardContent>
           </Card>
