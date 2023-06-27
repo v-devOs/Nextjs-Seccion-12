@@ -1,4 +1,5 @@
 import { IUser } from "./IUser";
+import { ISize } from "./products";
 
 
 export interface IOrder{
@@ -14,18 +15,19 @@ export interface IOrder{
   total:        number
 
   isPaid: boolean
-  paidAt: string
+  paidAt?: string
 }
 
 
 export interface IOrderItem{
   _id:      string
   title:    string,
-  size:     string
+  size:     ISize
   quantity: number,
   slug:     string,
   image:    string
-  prize:    number
+  price:    number
+  gender:   string
 }
 
 export interface ShippingAddress{
