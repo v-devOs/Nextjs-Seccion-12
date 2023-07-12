@@ -92,7 +92,7 @@ const SummaryPage = () => {
 
               <OrderSumary/>
 
-              <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
+              <Box sx={{ mt: 3, mb: 3 }} display='flex' flexDirection='column'>
                 <Button 
                   color='secondary' 
                   className='circular-btn' 

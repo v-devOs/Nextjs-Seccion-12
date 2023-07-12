@@ -67,7 +67,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
   
 
   useEffect(() => {
-      if (state.cart.length > 0) Cookies.set('cart', JSON.stringify(state.cart))
+    Cookies.set('cart', JSON.stringify(state.cart))
   }, [state.cart]);
 
   useEffect(() => {
@@ -149,7 +149,8 @@ export const CartProvider: FC<Props> = ({ children }) => {
 
     try {
       const { data } = await tesloApi.post<IOrder>('/orders', body)
-      // TODO: Dispatch
+      
+      dispatch({ type: '[Cart] - Order Complete' })
 
       return {
         hasError: false,
