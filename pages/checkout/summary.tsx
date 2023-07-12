@@ -1,24 +1,38 @@
-import { useContext, useEffect } from 'react';
-import { GetServerSideProps } from 'next';
+import { useContext, useEffect, useState } from 'react';
 import NextLink from 'next/link'
+import { useRouter } from 'next/router';
 
-import { Card, CardContent, Grid, Typography, Divider, Box, Button, Link } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Divider, Box, Button, Link, Chip } from '@mui/material';
+import Cookies from 'js-cookie';
 
 import { CartContext } from '@/context';
 
 import { CartList, OrderSumary } from '@/components/cart';
 import { ShopLayout } from '@/components/layouts'
 import { countries, validateSession } from '@/utils';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 
 const SummaryPage = () => {
 
   const { shippingAddress, numberOfItems, createOrder } = useContext(CartContext)
   const router = useRouter()
 
-  const onCreateOrder = () => {
-    createOrder()
+  const [isPosting, setIsPosting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const onCreateOrder = async() => {
+    setIsPosting(true)
+
+    const { hasError, message } = await createOrder() 
+
+    if( hasError ){
+      setIsPosting(false)
+      setErrorMessage( message )
+      return
+    }
+
+    router.replace(`/order/${message}`)
+
+
   }
 
   useEffect(() => {
@@ -78,15 +92,23 @@ const SummaryPage = () => {
 
               <OrderSumary/>
 
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
                 <Button 
                   color='secondary' 
                   className='circular-btn' 
                   fullWidth
                   onClick={onCreateOrder}
+                  disabled={isPosting}
                 >Confimar Orden
                 </Button>
+
+                <Chip
+                  color='error'
+                  label={errorMessage}
+                  sx={{ display: errorMessage ? 'flex': 'none'}}
+                />
               </Box>
+
             </CardContent>
           </Card>
         </Grid>
