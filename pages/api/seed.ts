@@ -14,14 +14,14 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   await db.connect();
 
-  await User.deleteMany();
-  await User.insertMany( seedDatabase.initialData.users )
+  // await User.deleteMany();
+  // await User.insertMany( seedDatabase.initialData.users )
 
-  await Product.deleteMany();
-  await Product.insertMany(seedDatabase.initialData.products)
+  // await Product.deleteMany();
+  // await Product.insertMany(seedDatabase.initialData.products)
 
-  await Order.deleteMany()
-  // console.log(await Order.find({}));
+  // await Order.find()
+  console.log(await Order.find({}));
 
   await db.disconnect();
 
